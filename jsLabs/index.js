@@ -87,7 +87,3 @@ function triangle(value1, type1, value2, type2) {
 triangle(7,"leg",18,"hypotenuse");
 triangle(60,"opposite angle",5,"leg");
 triangle(92,"opposite angle",10,"leg");
-let hej=document.getElementById("but");
-hej.addEventListener("click", function() {
-    triangle(7,"leg",18,"hypotenuse");
-});
