@@ -88,6 +88,6 @@ triangle(7,"leg",18,"hypotenuse");
 triangle(60,"opposite angle",5,"leg");
 triangle(92,"opposite angle",10,"leg");
 let hej=document.getElementById("but");
-but.addEventListener("click", function() {
+hej.addEventListener("click", function() {
     triangle(7,"leg",18,"hypotenuse");
 });
