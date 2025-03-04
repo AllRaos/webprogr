@@ -70,10 +70,18 @@ function triangle(value1, type1, value2, type2) {
             a = c * Math.cos(toRadians(alpha)), 
             b = Math.sqrt(c ** 2 - a ** 2))
     ];
-    calculations.some(calc => calc());
+    const success = calculations.some(calc => calc());
     
+    if (!success) {
+        console.log("Invalid input combination");
+        return;
+    }
     if (a + b <= c || a + c <= b || b + c <= a) {
         console.log("Invalid triangle: sum of two sides must be greater than the third side");
+        return;
+    }
+    if ((a > c) || (b > c)) {
+        console.log("Invalid triangle: leg cannot be greater than hypotenuse");
         return;
     }
     
@@ -84,6 +92,8 @@ function triangle(value1, type1, value2, type2) {
     console.log(`beta: ${beta.toFixed(14)}°`);
     console.log("Success");
 }
+triangle(7,"leg",7,"leg");
 triangle(7,"leg",18,"hypotenuse");
-triangle(60,"opposite angle",5,"leg");
+triangle(60,"opposite angle",5,"hypotenuse");
 triangle(92,"opposite angle",10,"leg");
+triangle(5,"hypotenuse",10,"hypotenuse");
