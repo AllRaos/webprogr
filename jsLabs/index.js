@@ -9,7 +9,7 @@ function triangle(value1, type1, value2, type2) {
         return;
     }
     
-    const values = { leg: null, anothLeg:null, hypotenuse: null, oppositeangle: null, adjacentangle: null };
+    const values = { leg: null, anothLeg:null, hypotenuse: null, oppositeangle: null, adjacentangle: null, angle: null };
     if(type1=="leg" && type2=="leg"){
     values.leg = value1;
     values.anothLeg = value2;
@@ -25,6 +25,11 @@ function triangle(value1, type1, value2, type2) {
     }
     
     const calculations = [
+        () => values.hypotenuse && values.angle  && (c = values.hypotenuse, alpha = values.angle, 
+            a = c * Math.cos(toRadians(alpha)), 
+            b = Math.sqrt(c ** 2 - a ** 2), 
+            beta = 90 - alpha),
+
         () => values.leg && values.anothLeg  && (a = values.leg, b = values.anothLeg,
              c = Math.sqrt(a ** 2 + b ** 2), 
              alpha = toDegrees(Math.atan(b / a)), 
@@ -58,17 +63,9 @@ function triangle(value1, type1, value2, type2) {
         () => values.anothLeg && values.adjacentangle && (b = values.anothLeg, beta = values.beta, 
             alpha = 90 - beta, 
             c = b / Math.cos(toRadians(beta)), 
-            a = Math.sqrt(c ** 2 - b ** 2)),
+            a = Math.sqrt(c ** 2 - b ** 2))
         
-        () => values.hypotenuse && values.oppositeangle && (c = values.hypotenuse, alpha = values.oppositeangle, 
-            a = c * Math.cos(toRadians(alpha)), 
-            b = Math.sqrt(c ** 2 - a ** 2), 
-            beta = 90 - alpha),
-        
-        () => values.hypotenuse && values.adjacentangle && (c = values.hypotenuse, beta = values.beta, 
-            alpha = 90 - beta, 
-            a = c * Math.cos(toRadians(alpha)), 
-            b = Math.sqrt(c ** 2 - a ** 2))
+      
     ];
     const success = calculations.some(calc => calc());
     
@@ -95,5 +92,7 @@ function triangle(value1, type1, value2, type2) {
 triangle(7,"leg",7,"leg");
 triangle(7,"leg",18,"hypotenuse");
 triangle(60,"opposite angle",5,"hypotenuse");
-triangle(92,"opposite angle",10,"leg");
+triangle(60,"opposite angle",10,"leg");
 triangle(5,"hypotenuse",10,"hypotenuse");
+triangle(30,"angle",10,"hypotenuse");
+triangle(10,"hypotenuse",30,"angle");
