@@ -8,7 +8,7 @@ car1.driver.personalLimitations = "No driving at night";
 car1.upgrade = true;
 car1.dtp = 0;
 
-var car2 = {
+let car2 = {
     color: "red",
     maxSpeed: 200,
     driver: {
