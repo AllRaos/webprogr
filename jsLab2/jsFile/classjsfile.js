@@ -68,7 +68,7 @@ class Rectangle extends Square {
 class Rhombus extends Square {
     constructor(a, alpha, beta) {
         super(a);
-        // Validate angles
+     
         if (!Number.isInteger(alpha) || !Number.isInteger(beta)) {
             throw new Error("Rhombus angles must be integers");
         }
@@ -112,7 +112,7 @@ class Rhombus extends Square {
 class Parallelogram extends Rectangle {
     constructor(a, b, alpha, beta) {
         super(a, b);
-        // Validate angles
+     
         if (!Number.isInteger(alpha) || !Number.isInteger(beta)) {
             throw new Error("Parallelogram angles must be integers");
         }
