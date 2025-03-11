@@ -12,7 +12,7 @@ let car2 = {
     color: "red",
     maxSpeed: 200,
     driver: {
-        name: "John Doe",
+        name: "Stepan",
         category: "B",
         personalLimitations: null
     },

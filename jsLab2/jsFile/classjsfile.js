@@ -81,7 +81,50 @@ class Rhombus extends Square {
         this.alpha = alpha;
         this.beta = beta;
     }
+        get a() {
+            return this._a;
+    }
 
+        set a(value) {
+            if (typeof value !== 'number' || value <= 0) {
+                throw new Error("Side length must be a positive number");
+            }
+            this._a = value;
+        }
+
+        get alpha() {
+            return this._alpha;
+        }
+
+        set alpha(value) {
+            if (!Number.isInteger(value)) {
+                throw new Error("Rhombus angle alpha must be an integer");
+            }
+            if (value <= 0 || value >= 180) {
+                throw new Error("Rhombus angle alpha must be between 0 and 180 degrees");
+            }
+            if (value + this._beta !== 180) {
+                throw new Error("Rhombus adjacent angles must sum to 180 degrees");
+            }
+            this._alpha = value;
+        }
+
+        get beta() {
+            return this._beta;
+        }
+
+        set beta(value) {
+            if (!Number.isInteger(value)) {
+                throw new Error("Rhombus angle beta must be an integer");
+            }
+            if (value <= 0 || value >= 180) {
+                throw new Error("Rhombus angle beta must be between 0 and 180 degrees");
+            }
+            if (this._alpha + value !== 180) {
+                throw new Error("Rhombus adjacent angles must sum to 180 degrees");
+            }
+            this._beta = value;
+        }
     static help() {
         console.log("Rhombus is a four-sided polygon with:");
         console.log("All sides equal in length");
