@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Демонстрація створеної бібліотеки сортування</h1>
+    <script src="/jsLab4/jsFile/index.js"></script>
+    <script>
+
+        const createDenseArr = (length) => {
+            return Array.from({ length }, () => Math.floor(Math.random() * 500));
+        };
+
+        const createSparseArr = (length) => {
+            const arr = new Array(length);
+            for (let i = 0; i < length; i++) {
+                if (Math.random() > 0.2) {
+                    arr[i] = Math.floor(Math.random() * 500);
+                }
+            }
+            return arr;
+        };
+
+        
+        const demonstrationeSort = (arr, title, ascending = true) => {
+            console.log(`\n=== ${title} ===`);
+            console.log(`Початковий масив 100 елементів:`, arr);
+
+            const methods = [
+                'bubbleSort',
+                'selectionSort',
+                'insertionSort',
+                'shellSort',
+                'quickSort'
+            ];
+
+            methods.forEach(method => {
+                const sorted = SortingLibrary[method](arr, ascending);
+                console.log(`Відсортовані ${method} 100 елементів:`, sorted);
+            });
+        };
+
+       
+        const denseArr = createDenseArr(100);
+        demonstrationeSort(denseArr, "Нерозріджений масив (зростання)");
+        demonstrationeSort(denseArr, "Нерозріджений масив (спадання)", false);
+        
+        const sparseArr = createSparseArr(100);
+        demonstrationeSort(sparseArr, "Розріджений масив (зростання)");
+        demonstrationeSort(sparseArr, "Розріджений масив (спадання)", false);
+    </script>
+</body>
+</html>
