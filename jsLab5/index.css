@@ -1,0 +1,32 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+  }
+  #start-screen, #end-screen {
+    text-align: center;
+  }
+  #game-screen {
+    text-align: center;
+  }
+  #game-area {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    border: 1px solid black;
+    background-color: #fff;
+    margin: 20px auto;
+  }
+  .block {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+  }
+  select, button {
+    margin: 10px;
+    padding: 5px;
+  }
