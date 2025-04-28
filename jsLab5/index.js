@@ -33,6 +33,9 @@ const forbiddenColors = ['blue', 'yellow', 'white', 'gray'];
     let score = 0;
     let lives = 3;
     let timer;
+    let blockStartTime = 0;
+    let blockDuration = 0;
+    let timeInterval;
 
     document.getElementById('start-button').addEventListener('click', () => {
       const difficulty = document.getElementById('difficulty').value;
@@ -47,7 +50,19 @@ const forbiddenColors = ['blue', 'yellow', 'white', 'gray'];
       updateLives();
       document.getElementById('start-screen').style.display = 'none';
       document.getElementById('game-screen').style.display = 'block';
+      timeInterval = setInterval(updateTime, 100);
       generateBlock(difficulty, color);
+    }
+
+    function updateTime() {
+      if (blockDuration > 0) {
+        const timeElapsed = Date.now() - blockStartTime;
+        const timeLeft = Math.max(0, blockDuration - timeElapsed);
+        const secondsLeft = (timeLeft / 1000).toFixed(1);
+        document.getElementById('time-left').textContent = `Час: ${secondsLeft} с`;
+      } else {
+        document.getElementById('time-left').textContent = `Час: 0.0 с`;
+      }
     }
 
     function generateBlock(difficulty, color) {
@@ -63,6 +78,9 @@ const forbiddenColors = ['blue', 'yellow', 'white', 'gray'];
       block.style.top = Math.random() * (gameArea.offsetHeight - 50) + 'px';
       gameArea.appendChild(block);
       
+      blockStartTime = Date.now();
+      blockDuration = difficultyTimes[difficulty];
+
       let clicked = false;
       block.addEventListener('click', () => {
         if (!clicked) {
@@ -94,6 +112,8 @@ const forbiddenColors = ['blue', 'yellow', 'white', 'gray'];
     }
 
     function endGame() {
+      clearInterval(timeInterval);
+      blockDuration = 0;
       document.getElementById('game-screen').style.display = 'none';
       document.getElementById('end-screen').style.display = 'block';
       document.getElementById('final-score').textContent = `Вітаю! Ви заробили ${score} очок.`;
