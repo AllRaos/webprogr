@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./cssFile/index.css">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <h1>Організація та налаштування мереж в ОС Linux</h1>
+        <nav>
+            <ul>
+                <li><a href="#intro">Вступ</a></li>
+                <li><a href="#tools">Інструменти</a></li>
+                <li><a href="#config">Налаштування мережі</a></li>
+                <li><a href="#security">Безпека</a></li>
+                <li><a href="#troubleshooting">Усунення несправностей</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="intro">
+            <h2>Вступ до мережевих налаштувань в Linux</h2>
+            <p>Linux є однією з найпопулярніших операційних систем для серверів і мережевих пристроїв завдяки своїй стабільності, гнучкості та потужним інструментам для роботи з мережами. У цій статті ми детально розглянемо, як організувати та налаштувати мережу в Linux, включаючи використання командного рядка, конфігураційних файлів та інструментів для забезпечення безпеки.</p>
+            <p>Мережеві налаштування в Linux включають управління IP-адресами, маршрутизацією, DNS, а також захистом від зовнішніх загроз. Незалежно від того, чи ви новачок, чи досвідчений адміністратор, ці знання допоможуть вам ефективно керувати мережею.</p>
+        </section>
+
+        <section id="tools">
+            <h2>Основні інструменти для роботи з мережами</h2>
+            <p>Linux пропонує широкий набір утиліт для діагностики, налаштування та моніторингу мереж. Ось найпоширеніші з них:</p>
+            <ul>
+                <li><strong>ifconfig</strong>: Класична утиліта для перегляду та налаштування мережевих інтерфейсів. Наприклад:
+                    <pre><code>ifconfig eth0 192.168.1.100 netmask 255.255.255.0</code></pre>
+                    Ця команда встановлює IP-адресу для інтерфейсу <code>eth0</code>.
+                </li>
+                <li><strong>ip</strong>: Сучасна альтернатива <code>ifconfig</code>. Наприклад, для відображення всіх інтерфейсів:
+                    <pre><code>ip addr show</code></pre>
+                    Або для додавання IP-адреси:
+                    <pre><code>ip addr add 192.168.1.100/24 dev eth0</code></pre>
+                </li>
+                <li><strong>netstat</strong>: Використовується для перегляду активних з’єднань і статистики. Наприклад:
+                    <pre><code>netstat -tuln</code></pre>
+                    Показує всі відкриті порти.
+                </li>
+                <li><strong>ping</strong>: Перевіряє доступність вузла в мережі:
+                    <pre><code>ping google.com</code></pre>
+                </li>
+                <li><strong>traceroute</strong>: Відстежує маршрут пакетів до цільового хоста:
+                    <pre><code>traceroute google.com</code></pre>
+                </li>
+                <li><strong>dig</strong>: Використовується для перевірки DNS-записів:
+                    <pre><code>dig google.com</code></pre>
+                </li>
+            </ul>
+            <p>Ці інструменти є основою для роботи з мережами і дозволяють швидко діагностувати проблеми або налаштувати систему.</p>
+        </section>
+
+        <section id="config">
+            <h2>Налаштування мережевих параметрів</h2>
+            <p>У Linux налаштування мережі можна виконувати вручну через командний рядок або за допомогою графічних утиліт, таких як NetworkManager. Ось детальний опис основних кроків:</p>
+            <h3>1. Налаштування IP-адреси</h3>
+            <p>Для тимчасового встановлення IP-адреси використовуйте команду <code>ip</code>:</p>
+            <pre><code>sudo ip addr add 192.168.1.100/24 dev eth0</code></pre>
+            <p>Щоб зробити налаштування постійними, редагуйте конфігураційні файли. Наприклад, у дистрибутивах на основі Debian (Ubuntu) редагуйте <code>/etc/netplan/01-netcfg.yaml</code>:</p>
+            <pre><code>network:
+  version: 2
+  ethernets:
+    eth0:
+      addresses:
+        - 192.168.1.100/24
+      gateway4: 192.168.1.1
+      nameservers:
+        addresses: [8.8.8.8, 8.8.4.4]
+</code></pre>
+            <p>Після редагування застосуйте зміни:</p>
+            <pre><code>sudo netplan apply</code></pre>
+
+            <h3>2. Налаштування шлюзу</h3>
+            <p>Для встановлення шлюзу за замовчуванням виконайте:</p>
+            <pre><code>sudo ip route add default via 192.168.1.1</code></pre>
+            <p>Для постійного налаштування додайте маршрут у конфігураційний файл, як показано вище.</p>
+
+            <h3>3. Налаштування DNS</h3>
+            <p>Щоб вказати DNS-сервери, редагуйте <code>/etc/resolv.conf</code> (тимчасово):</p>
+            <pre><code>nameserver 8.8.8.8
+nameserver 8.8.4.4</code></pre>
+            <p>Для постійних змін використовуйте конфігурацію NetworkManager або Netplan, як у прикладі вище.</p>
+
+            <h3>4. Використання NetworkManager</h3>
+            <p>NetworkManager спрощує налаштування через графічний інтерфейс або утиліту <code>nmcli</code>. Наприклад, для створення нового з’єднання:</p>
+            <pre><code>nmcli con add type ethernet con-name "MyConnection" ifname eth0 ipv4.method manual ipv4.addresses 192.168.1.100/24 ipv4.gateway 192.168.1.1 ipv4.dns "8.8.8.8,8.8.4.4"</code></pre>
+            <p>Активуйте з’єднання:</p>
+            <pre><code>nmcli con up MyConnection</code></pre>
+        </section>
+
+        <section id="security">
+            <h2>Безпека мережевих налаштувань</h2>
+            <p>Забезпечення безпеки мережі є ключовим аспектом адміністрування. Ось основні заходи та приклади:</p>
+            <h3>1. Налаштування брандмауера</h3>
+            <p><strong>iptables</strong> дозволяє створювати правила для фільтрації трафіку. Наприклад, дозвіл лише SSH (порт 22):</p>
+            <pre><code>sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+sudo iptables -A INPUT -j DROP</code></pre>
+            <p>Сучасніший інструмент — <strong>firewalld</strong>. Додавання зони для SSH:</p>
+            <pre><code>sudo firewall-cmd --permanent --add-service=ssh
+sudo firewall-cmd --reload</code></pre>
+
+            <h3>2. Захист SSH</h3>
+            <p>Змініть стандартний порт SSH (наприклад, на 2222) у файлі <code>/etc/ssh/sshd_config</code>:</p>
+            <p>Port 2222</p>
+            <p>Використовуйте ключі замість паролів. Створіть пару ключів:</p>
+            <pre><code>ssh-keygen -t rsa -b 4096</code></pre>
+            <p>Скопіюйте ключ на сервер:</p>
+            <pre><code>ssh-copy-id user@server</code></pre>
+
+            <h3>3. Моніторинг трафіку</h3>
+            <p>Для аналізу трафіку використовуйте <strong>tcpdump</strong>:</p>
+            <pre><code>sudo tcpdump -i eth0</code></pre>
+            <p>Або <strong>wireshark</strong> для графічного аналізу.</p>
+
+            <h3>4. Оновлення та шифрування</h3>
+            <p>Регулярно оновлюйте систему:</p>
+            <pre><code>sudo apt update && sudo apt upgrade</code></pre>
+            <p>Використовуйте HTTPS для веб-серверів і VPN для віддаленого доступу.</p>
+        </section>
+
+        <section id="troubleshooting">
+            <h2>Усунення несправностей</h2>
+            <p>Якщо мережа не працює, виконайте такі перевірки:</p>
+            <ul>
+                <li>Перевірте стан інтерфейсів: <code>ip link show</code></li>
+                <li>Перевірте підключення: <code>ping 8.8.8.8</code></li>
+                <li>Перегляньте логи: <code>journalctl -u NetworkManager</code></li>
+                <li>Перевірте брандмауер: <code>sudo iptables -L</code></li>
+            </ul>
+            <p>Ці команди допоможуть виявити та усунути більшість проблем.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Організація мереж в Linux. Усі права захищено.</p>
+    </footer>
+    <script src="./jsFile/index.js"></script>
+
+</body>
+</html>
