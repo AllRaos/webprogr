@@ -7,7 +7,7 @@ let currentConfigIndex = 0;
 let configurations = [];
 
 function initGame() {
-    fetch('./data/info.json')
+    fetch('../data/info.json')
     .then(response => {
         if (!response.ok) {
             throw new Error('Не вдалося завантажити info.json');
