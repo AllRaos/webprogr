@@ -5,6 +5,7 @@ let startTime = 0;
 let timerInterval;
 let currentConfigIndex = 0;
 let configurations = [];
+let lastClickedCell = null;
 
 function initGame() {
     fetch('../jsLab6/data/info.json')
@@ -23,6 +24,7 @@ function initGame() {
             startTime = Date.now();
             clearInterval(timerInterval);
             timerInterval = setInterval(updateTimer, 1000);
+            hideWinModal();
             updateStatus();
         });
 }
@@ -47,6 +49,11 @@ function renderBoard() {
 }
 
 function toggleCell(i, j) {
+    const currentCell = `${i},${j}`;
+    if (lastClickedCell === currentCell) {
+        moves--;
+    }
+    lastClickedCell = currentCell;
     moves++;
     toggleSingleCell(i, j);
     if (i > 0) toggleSingleCell(i - 1, j);
@@ -66,10 +73,21 @@ function checkWin() {
     if (allOff) {
         clearInterval(timerInterval);
         const timeTaken = Math.floor((Date.now() - startTime) / 1000);
-        alert(`Вітаємо! Ви виграли за ${moves} ходів і ${timeTaken} секунд!`);
+        showWinModal(moves, timeTaken);
     }
 }
 
+function showWinModal(moves, timeTaken) {
+    const winModal = document.getElementById('winModal');
+    const winMessage = document.getElementById('winMessage');
+    winMessage.innerText = `Ви виграли за ${moves} ходів і ${timeTaken} секунд!`;
+    winModal.style.display = 'flex';
+}
+
+function hideWinModal() {
+    const winModal = document.getElementById('winModal');
+    winModal.style.display = 'none';
+}
 function updateTimer() {
     const timeTaken = Math.floor((Date.now() - startTime) / 1000);
     updateStatus();
@@ -93,6 +111,8 @@ function newGame() {
     startTime = Date.now();
     clearInterval(timerInterval);
     timerInterval = setInterval(updateTimer, 1000);
+    lastClickedCell = null;
+    hideWinModal();
     updateStatus();
 }
 
@@ -102,6 +122,8 @@ function restartGame() {
     startTime = Date.now();
     clearInterval(timerInterval);
     timerInterval = setInterval(updateTimer, 1000);
+    lastClickedCell = null;
+    hideWinModal();
     updateStatus();
 }
 

@@ -14,12 +14,12 @@ body {
 .cell {
     width: 50px;
     height: 50px;
-    background-color: #ccc;
+    background-color: #424141;
     border: 1px solid #000;
     cursor: pointer;
 }
 .cell.on {
-    background-color: #ffeb3b;
+    background-color: #df63af;
 }
 .controls {
     display: flex;
@@ -32,4 +32,50 @@ button {
 #status {
     margin-top: 10px;
     font-size: 18px;
+}
+.win-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.win-modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 80%;
+}
+
+.win-modal-content h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+.win-modal-content p {
+    font-size: 18px;
+    margin: 15px 0;
+}
+
+.new-game-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.new-game-button:hover {
+    background-color: #45a049;
 }
