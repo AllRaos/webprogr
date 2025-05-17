@@ -3,6 +3,12 @@ const ctx = canvas.getContext('2d');
 const scoreElement = document.getElementById('score');
 const gameOverElement = document.getElementById('gameOver');
 const finalScoreElement = document.getElementById('finalScore');
+const shootSound = new Audio('../sounds/shoot.mp3');
+const explosionSound = new Audio('../sounds/death.mp3');
+const gameOverSound = new Audio('../sounds/playerDeath.mp3');
+const backgroundMusic1 = new Audio('../sounds/phonk1.mp3');
+const backgroundMusic2 = new Audio('../sounds/phonk2.mp3');
+const backgroundMusic3 = new Audio('../sounds/phonk3.mp3');
 
 canvas.width = window.innerWidth - 40;
 canvas.height = window.innerHeight - 40;
