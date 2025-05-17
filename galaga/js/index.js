@@ -3,9 +3,13 @@ const ctx = canvas.getContext('2d');
 const scoreElement = document.getElementById('score');
 const gameOverElement = document.getElementById('gameOver');
 const finalScoreElement = document.getElementById('finalScore');
+const startScreen = document.getElementById('startScreen');
+const startButton = document.getElementById('startButton');
+const volumeSlider = document.getElementById('volume');
+const musicToggle = document.getElementById('musicToggle');
 const shootSound = new Audio('../sounds/shoot.mp3');
-const explosionSound = new Audio('../sounds/death.mp3');
-const gameOverSound = new Audio('../sounds/playerDeath.mp3');
+const explosionSound = document.getElementById('explosionSound') || new Audio('../sounds/death.mp3');
+const gameOverSound = document.getElementById('gameOverSound') || new Audio('../sounds/playerDeath.mp3');
 const backgroundMusic1 = new Audio('../sounds/phonk1.mp3');
 const backgroundMusic2 = new Audio('../sounds/phonk2.mp3');
 const backgroundMusic3 = new Audio('../sounds/phonk3.mp3');
@@ -26,10 +30,38 @@ let enemies = [];
 let enemyBullets = [];
 let score = 0;
 let gameOver = false;
+let gameStarted = false;
 let keys = {};
 let particles = [];
 let enemyBulletSpeed = 1.5;
 let wave = 1;
+let currentMusic;
+
+const backgroundMusics = [backgroundMusic1, backgroundMusic2, backgroundMusic3];
+
+function setVolume() {
+  const volume = parseFloat(volumeSlider.value);
+  shootSound.volume = volume;
+  explosionSound.volume = volume;
+  gameOverSound.volume = volume;
+  backgroundMusics.forEach(music => music.volume = volume);
+}
+
+function playBackgroundMusic() {
+  if (musicToggle.checked && gameStarted) {
+    if (currentMusic) currentMusic.pause();
+    currentMusic = backgroundMusics[Math.floor(Math.random() * backgroundMusics.length)];
+    currentMusic.loop = true;
+    currentMusic.play().catch(() => {});
+  }
+}
+
+function stopBackgroundMusic() {
+  if (currentMusic) {
+    currentMusic.pause();
+    currentMusic.currentTime = 0;
+  }
+}
 
 class Particle {
   constructor(x, y) {
@@ -191,6 +223,7 @@ function movePlayer() {
 }
 
 function shoot() {
+  if (!gameStarted || gameOver) return;
   player.bullets.push({
     x: player.x + player.width / 2 - 2.5,
     y: player.y,
@@ -198,6 +231,7 @@ function shoot() {
     height: 10,
     speed: -10
   });
+  shootSound.play().catch(() => {});
 }
 
 function updateBullets() {
@@ -315,6 +349,7 @@ function checkCollisions() {
         player.bullets.splice(bulletIndex, 1);
         score += enemy.type === 'butterfly' ? 30 : enemy.type === 'bee' ? 20 : 10;
         scoreElement.textContent = score;
+        explosionSound.play().catch(() => {});
       }
     });
   });
@@ -327,8 +362,11 @@ function checkCollisions() {
       bullet.y + bullet.height > player.y
     ) {
       gameOver = true;
+      gameStarted = false;
       gameOverElement.style.display = 'flex';
       finalScoreElement.textContent = score;
+      gameOverSound.play().catch(() => {});
+      stopBackgroundMusic();
     }
   });
 
@@ -340,8 +378,11 @@ function checkCollisions() {
       player.y + player.height > enemy.y
     ) {
       gameOver = true;
+      gameStarted = false;
       gameOverElement.style.display = 'flex';
       finalScoreElement.textContent = score;
+      gameOverSound.play().catch(() => {});
+      stopBackgroundMusic();
     }
   });
 
@@ -368,7 +409,7 @@ function increaseEnemyBulletSpeed() {
 setInterval(increaseEnemyBulletSpeed, 10000);
 
 function gameLoop() {
-  if (gameOver) return;
+  if (!gameStarted || gameOver) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawPlayer();
   movePlayer();
@@ -379,13 +420,31 @@ function gameLoop() {
   requestAnimationFrame(gameLoop);
 }
 
-document.addEventListener('keydown', e => {
-  keys[e.code] = true;
-  if (e.code === 'Space' && !gameOver) shoot();
-});
-document.addEventListener('keyup', e => {
-  keys[e.code] = false;
-});
+function startGame() {
+  startScreen.style.display = 'none';
+  gameStarted = true;
+  spawnEnemies();
+  setVolume();
+  playBackgroundMusic();
+  gameLoop();
+}
+
+function returnToMenu() {
+  gameOverElement.style.display = 'none';
+  startScreen.style.display = 'flex';
+  gameOver = false;
+  gameStarted = false;
+  player = { x: canvas.width / 2 - 25, y: canvas.height - 50, width: 50, height: 50, speed: 5, bullets: [] };
+  enemies = [];
+  enemyBullets = [];
+  particles = [];
+  score = 0;
+  enemyBulletSpeed = 1.5;
+  wave = 1;
+  scoreElement.textContent = score;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  stopBackgroundMusic();
+}
 
 function restartGame() {
   player = { x: canvas.width / 2 - 25, y: canvas.height - 50, width: 50, height: 50, speed: 5, bullets: [] };
@@ -397,10 +456,20 @@ function restartGame() {
   wave = 1;
   scoreElement.textContent = score;
   gameOver = false;
+  gameStarted = true;
   gameOverElement.style.display = 'none';
   spawnEnemies();
+  setVolume();
+  playBackgroundMusic();
   gameLoop();
 }
 
-spawnEnemies();
-gameLoop();
+document.addEventListener('keydown', e => {
+  keys[e.code] = true;
+  if (e.code === 'Space' && !gameOver) shoot();
+});
+document.addEventListener('keyup', e => {
+  keys[e.code] = false;
+});
+startButton.addEventListener('click', startGame);
+volumeSlider.addEventListener('input', setVolume);
