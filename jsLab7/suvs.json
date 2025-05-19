@@ -1,0 +1,40 @@
+{
+  "categoryName": "Позашляховики",
+  "items": [
+    {
+      "id": 1,
+      "name": "Toyota RAV4",
+      "shortname": "rav4",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "price": 30000
+    },
+    {
+      "id": 2,
+      "name": "Honda CR-V",
+      "shortname": "crv",
+      "description": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "price": 32000
+    },
+    {
+      "id": 3,
+      "name": "Jeep Wrangler",
+      "shortname": "wrangler",
+      "description": "Ut enim ad minim veniam, quis nostrud exercitation ullamco.",
+      "price": 45000
+    },
+    {
+      "id": 4,
+      "name": "Ford Explorer",
+      "shortname": "explorer",
+      "description": "Duis aute irure dolor in reprehenderit in voluptate velit esse.",
+      "price": 40000
+    },
+    {
+      "id": 5,
+      "name": "Audi Q5",
+      "shortname": "q5",
+      "description": "Excepteur sint occaecat cupidatat non proident.",
+      "price": 50000
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Седани",
+      "shortname": "sedans",
+      "notes": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    },
+    {
+      "id": 2,
+      "name": "Позашляховики",
+      "shortname": "suvs",
+      "notes": ""
+    },
+    {
+      "id": 3,
+      "name": "Спорткари",
+      "shortname": "sports",
+      "notes": "Lorem ipsum dolor sit amet."
+    }
+  ]
+}

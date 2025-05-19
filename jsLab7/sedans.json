@@ -1,0 +1,33 @@
+{
+  "categoryName": "Седани",
+  "items": [
+    {
+      "id": 1,
+      "name": "Toyota Camry",
+      "shortname": "camry",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "price": 25000
+    },
+    {
+      "id": 2,
+      "name": "Honda Accord",
+      "shortname": "accord",
+      "description": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "price": 27000
+    },
+    {
+      "id": 3,
+      "name": "BMW 3 Series",
+      "shortname": "bmw3",
+      "description": "Ut enim ad minim veniam, quis nostrud exercitation ullamco.",
+      "price": 35000
+    },
+    {
+      "id": 4,
+      "name": "Mercedes C-Class",
+      "shortname": "cclass",
+      "description": "Duis aute irure dolor in reprehenderit in voluptate velit esse.",
+      "price": 40000
+    }
+  ]
+}

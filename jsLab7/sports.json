@@ -1,0 +1,33 @@
+{
+  "categoryName": "Спорткари",
+  "items": [
+    {
+      "id": 1,
+      "name": "Porsche 911",
+      "shortname": "porsche911",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "price": 100000
+    },
+    {
+      "id": 2,
+      "name": "Chevrolet Corvette",
+      "shortname": "corvette",
+      "description": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "price": 80000
+    },
+    {
+      "id": 3,
+      "name": "Ferrari 488",
+      "shortname": "ferrari488",
+      "description": "Ut enim ad minim veniam, quis nostrud exercitation ullamco.",
+      "price": 250000
+    },
+    {
+      "id": 4,
+      "name": "Lamborghini Huracan",
+      "shortname": "huracan",
+      "description": "Duis aute irure dolor in reprehenderit in voluptate velit esse.",
+      "price": 300000
+    }
+  ]
+}
