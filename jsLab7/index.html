@@ -8,7 +8,7 @@
 </head>
 <body class="bg-gray-100 font-sans">
   <div class="container mx-auto p-4">
-    <!-- Навігація -->
+
     <nav class="mb-4">
       <ul class="flex space-x-4">
         <li><a href="index.html" class="text-blue-600 hover:underline">Додому</a></li>
@@ -16,7 +16,7 @@
       </ul>
     </nav>
 
-    <!-- Контейнер для контенту -->
+
     <div id="content" class="bg-white p-6 rounded shadow"></div>
   </div>
 
@@ -32,9 +32,9 @@
       xhr.send();
     }
 
-    // Відображення списку категорій
+
     function displayCategories() {
-      loadJSON('./jsLab7/categories.json', function (data) {
+      loadJSON('jsLab7/categories.json', function (data) {
         let html = '<h2 class="text-2xl font-bold mb-4">Каталог</h2><ul class="space-y-2">';
         data.categories.forEach(category => {
           html += `<li><a href="#" class="text-blue-600 hover:underline" onclick="loadCategory('${category.shortname}')">${category.name}</a></li>`;
@@ -45,9 +45,8 @@
       });
     }
 
-    // Завантаження товарів категорії
     function loadCategory(shortname) {
-      loadJSON(`./jsLab7/${shortname}.json`, function (data) {
+      loadJSON(`jsLab7/${shortname}.json`, function (data) {
         let html = `<h2 class="text-2xl font-bold mb-4">${data.categoryName}</h2>`;
         html += '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">';
         data.items.forEach(item => {
@@ -65,21 +64,21 @@
       });
     }
 
-    // Завантаження випадкової категорії для "Specials"
+   
     function loadSpecials() {
-      loadJSON('./jsLab7/categories.json', function (data) {
+      loadJSON('jsLab7/categories.json', function (data) {
         const randomCategory = data.categories[Math.floor(Math.random() * data.categories.length)];
         loadCategory(randomCategory.shortname);
       });
     }
 
-    // Обробник для посилання "Каталог"
+  
     document.getElementById('catalogLink').addEventListener('click', function (e) {
       e.preventDefault();
       displayCategories();
     });
 
-    // Початкове завантаження каталогу
+
     displayCategories();
   </script>
 </body>
