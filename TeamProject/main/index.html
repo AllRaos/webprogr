@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ретро магазин</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../game/css/index.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-roboto main-background">
+  <nav class="nav-background text-white p-4 w-full top-0 z-10">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="menu-container mr-6">
+        <img src="../assets/logo.png" class="logo hidden md:block" alt="Логотип" />
+        <div class="md:hidden">
+          <button id="hamburger" class="focus:outline-none text-xl">☰</button>
+        </div>
+        <ul id="nav-menu" class="hidden md:flex space-x-4">
+          <li><a href="#home" class="nav-link hover:underline">Головна</a></li>
+          <li><a href="#catalog" class="nav-link hover:underline">Каталог</a></li>
+          <li><a href="#game" class="nav-link hover:underline">Гра</a></li>
+        </ul>
+      </div>
+      <div class="flex items-center">
+        <input id="search" type="text" placeholder="Пошук..." class="p-2 mr-5 rounded-xl w-25 text-black">
+        <span id="greeting" class="hidden md:block"></span>
+        <div class="relative">
+            <button id="cart-toggle" class="text-white focus:outline-none">
+              🛒 <span id="cart-count" class="bg-red-500 text-white rounded-full px-2 py-1 text-xs">0</span>
+            </button>
+            <div id="cart-content" class="hidden absolute right-0 mt-5 w-80 bg-white text-black rounded-xl shadow-lg p-4 z-20">
+              <h3 class="text-lg font-bold mb-2">Кошик</h3>
+              <div id="cart-items"></div>
+              <p id="cart-total" class="font-semibold mt-2">Разом: 0 грн</p>
+              <button id="clear-cart" class="btn-color2 text-white px-4 py-2 rounded-xl mt-2 w-full">Очистити кошик</button>
+              <button id="checkout" class="btn-color2 text-white px-4 py-2 rounded-xl mt-2 w-full">Оформити замовлення</button>
+            </div>
+        </div>
+      </div>
+    </div>  
+    <ul id="mobile-menu" class="md:hidden">
+      <li><a href="#home" class="nav-link block py-2 hover:underline">Головна</a></li>
+      <li><a href="#catalog" class="nav-link block py-2 hover:underline">Каталог</a></li>
+      <li><a href="#game" class="nav-link block py-2 hover:underline">Гра</a></li>
+    </ul>
+  </nav>
+
+  <header class="container mx-auto mt-20 mb-8 text-center">
+    <h1 class="text-4xl text-color font-lobster">Ласкаво просимо до Ретро Ігрового Мерчу!</h1>
+    <p class="text-lg text-color">Знайдіть унікальний мерч із Mario, Pac-Man, Galaga!</p>
+  </header>
+
+  <main class="main-container container mx-auto px-4">
+    <section id="home" class="mb-8">
+      <h2 class="text-2xl font-bold text-color mb-4">Про нас</h2>
+      <p class="text-color">Ретро Ігровий Мерч пропонує унікальні товари для фанатів ретро-ігор: кружки, футболки, кепки, брелоки, постери.</p>
+    </section>
+    <section id="catalog" class="mb-8 hidden mt-5">
+      <h2 class="text-2xl font-bold text-color mb-4">Каталог</h2>
+      <div id="category-filter" class="mb-4 flex flex-wrap gap-2">
+        <button class="category-btn text-white px-4 py-2 rounded rounded-md" data-category="all">Усі</button>
+      </div>
+      <div id="catalog-content" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+    <section id="game" class="mb-8 hidden">
+      <h2 class="text-2xl font-bold text-color mb-4 mt-4">Galaga Shooter</h2>
+      <div class="game-container">
+        <div id="startScreen" class="start-screen">
+          <h1>Galaga Shooter</h1>
+          <div class="controls">
+            <label for="volume">Гучність:</label>
+            <input type="range" id="volume" min="0" max="1" step="0.1" value="0.5">
+            <label for="musicToggle">Фонова музика:</label>
+            <input type="checkbox" id="musicToggle" checked>
+          </div>
+          <button id="startButton">Погнали!!!</button>
+        </div>
+        <p id="score" class="score">Очки: 0</p>
+        <canvas id="gameCanvas"></canvas>
+        <div id="gameOver" class="game-over">
+          <h1>Гру Закінчено!</h1>
+          <p>Очки: <span id="finalScore">0</span></p>
+          <div id="ticket">
+          <p >Вітаю ви набрали більше або рівно 1000 очок.</p>
+          <p >Ось ваш секретний промокод на знижку в 10%.</p>
+          <p >Промокод : Кіберпанк.</p>
+          <p >Скажете його по телефону і ми оформимо вам знижку.</p>
+          </div>
+          <button id="restartBtn">Грати знову</button>
+          <button id="returnBtn">Повернутися в меню</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="checkout-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white p-6 rounded-xl shadow-lg w-96">
+      <h3 class="text-lg font-bold mb-4">Оформлення замовлення</h3>
+      <label for="phone-number" class="block mb-2">Введіть номер телефону:</label>
+      <input type="tel" id="phone-number" placeholder="+380XXXXXXXXX" class="w-full p-2 border rounded-xl mb-4" required>
+      <div class="flex justify-end gap-2">
+        <button id="cancel-checkout" class="btn-color2 text-white px-4 py-2 rounded-xl">Скасувати</button>
+        <button id="confirm-checkout" class="btn-color2 text-white px-4 py-2 rounded-xl">Підтвердити</button>
+      </div>
+    </div>
+  </div>
+  <footer class="footer-background text-white p-4">
+    <div class="container mx-auto text-center">
+      <p>Розробники: Команда Ретро</p>
+      <p>Контакти: <a href="mailto:retroshop@example.com" class="underline">retroshop@example.com</a></p>
+      <p>© 2025 Ретро Ігровий Мерч. Усі права захищено.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="../game/js/index.js"></script>
+</body>
+</html>

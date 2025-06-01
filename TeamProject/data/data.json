@@ -1,0 +1,24 @@
+{
+  "categories": [
+    {
+      "name": "Кружки",
+      "data_file": "mugs.json"
+    },
+    {
+      "name": "Футболки",
+      "data_file": "tshirts.json"
+    },
+    {
+      "name": "Кепки",
+      "data_file": "caps.json"
+    },
+    {
+      "name": "Брелоки",
+      "data_file": "keychains.json"
+    },
+    {
+      "name": "Постери",
+      "data_file": "posters.json"
+    }
+  ]
+}
